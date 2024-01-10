@@ -1,0 +1,50 @@
+// this is the zenith programming language
+
+// this is a comment
+/* this is also a comment*/
+
+// data types:
+booleans := true;
+integers := 89213;
+floats := 74.13;
+strings := "zenith";
+nothing := null;
+array := [1, 2, 50];
+
+constants :: 3.15;
+
+age := 17;
+age = 18;
+
+if age > 18 {
+    print("you are an adult");
+} else {
+    print("you are underage");
+}
+
+i := 0;
+while i < 10 {
+    print(i);
+    i += 1;
+}
+
+for i in 0..10 {
+    print(i);
+}
+
+for 0..10 {
+    print("do something");
+}
+
+nums := [32, 12, 6];
+for n in nums {
+    print(n);
+}
+
+print_sum := (a, b) {
+    print(a + b);
+}
+
+return_sum := (a, b) {
+    return a + b;
+}

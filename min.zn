@@ -1,0 +1,27 @@
+booleans = true
+integers = 89213
+floats = 74.13
+strings = "zenith"
+array = [1, 2, 50]
+
+age = 17
+age = 18
+
+if age = 18
+    print "adult"
+if age > 18
+    print "adult"
+if age < 18
+    print "underage"
+
+i = 0
+while i < 10
+    print i
+    i = i + 1
+
+nums = [1, 3, 7, 2]
+len = 4
+i = 0
+while i < len
+    print nums[i]
+    i = i + 1

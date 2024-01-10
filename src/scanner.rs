@@ -29,7 +29,7 @@ impl Scanner {
         }
     }
 
-    pub fn scan_tokens(&mut self, zenith: &mut Zenith) {
+    pub fn scan_tokens(&mut self, zenith: &mut Zenith) -> &Vec<Token> {
         while !self.is_at_end() {
             self.start = self.current;
             self.scan_token(zenith);
@@ -41,6 +41,8 @@ impl Scanner {
             literal: None,
             line: self.line,
         });
+
+        &self.tokens
     }
 
     fn scan_token(&mut self, zenith: &mut Zenith) {
@@ -89,7 +91,7 @@ impl Scanner {
             '/' => {
                 let matches = self.matches('/');
                 if matches {
-                    // comment til end of line
+                    // comment lasts until end of line or file
                     while self.peek() != '\n' && !self.is_at_end() {
                         self.advance();
                     }
@@ -125,12 +127,14 @@ impl Scanner {
         self.get_char(self.current as usize)
     }
 
+    /// returns current char and increases current by 1
     fn advance(&mut self) -> char {
         let current_char = self.current_char();
         self.current += 1;
         current_char
     }
 
+    /// pushes new token from source substring (from start to current)
     fn add_token(&mut self, token_type: TokenType, literal: Option<Literal>) {
         let text = self.source.substring(self.start as usize, self.current as usize);
         self.tokens.push(Token {
@@ -141,6 +145,8 @@ impl Scanner {
         })
     }
 
+    /// returns true and increases current by 1 if current char is expected char,
+    /// otherwise just return false
     fn matches(&mut self, expected: char) -> bool {
         if self.is_at_end() { return false }
         if self.current_char() != expected { return false }
@@ -148,12 +154,14 @@ impl Scanner {
         true
     }
 
+    /// returns current character
     fn peek(&self) -> char {
         if self.is_at_end() { return '\0' }
         self.current_char()
     }
 
     fn string(&mut self, zenith: &mut Zenith) {
+        // string lasts until closing quote or end of file (multi-line string)
         while self.peek() != '"' && !self.is_at_end() {
             if self.peek() == '\n' {
                 self.line += 1;
@@ -198,6 +206,7 @@ impl Scanner {
         self.add_token(TokenType::Number, Some(Literal::Float(value)))
     }
 
+    // return next char
     fn peek_next(&self) -> char {
         if self.current as usize + 1 >= self.source.len() { return '\0' }
         self.get_char(self.current as usize + 1)

@@ -4,6 +4,8 @@ use scanner::Scanner;
 
 mod token;
 mod scanner;
+mod ast;
+mod parser;
 
 // TODO: maybe way to make this static?
 struct Zenith {
@@ -32,7 +34,7 @@ fn main() {
         had_error: false
     };
     let mut scanner = Scanner::from_source(source);
-    scanner.scan_tokens(&mut zenith);
+    let _tokens = scanner.scan_tokens(&mut zenith);
     scanner.print_tokens();
 
     if zenith.had_error {
